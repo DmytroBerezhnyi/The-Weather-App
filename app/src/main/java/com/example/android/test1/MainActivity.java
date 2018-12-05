@@ -107,12 +107,14 @@ public class MainActivity extends AppCompatActivity {
             }
             public void onSwipeRight() {
                 imageViewNavigation.startAnimation(rotateAnimation);
-                mDrawer.openDrawer(Gravity.START);
+                if (!mDrawer.isDrawerOpen(GravityCompat.START))
+                    mDrawer.openDrawer(Gravity.START);
                 displayMessage("right");
             }
             public void onSwipeLeft() {
                 displayMessage("left");
-                mDrawer.openDrawer(Gravity.NO_GRAVITY);
+                if (mDrawer.isDrawerOpen(GravityCompat.START))
+                    mDrawer.openDrawer(Gravity.NO_GRAVITY);
                 //mDrawer.closeDrawers();
             }
             public void onSwipeBottom() {
