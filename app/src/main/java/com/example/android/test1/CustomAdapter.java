@@ -21,6 +21,7 @@ public class CustomAdapter extends ArrayAdapter<Forecastday> {
     private Weather weather;
     List<Forecastday> list;
     Context mContext;
+    private int lastPosition = -1;
 
     public CustomAdapter(Weather data, Context context) {
         super(context, R.layout.row_item_weather, data.getForecast().getForecastday());
@@ -63,10 +64,10 @@ public class CustomAdapter extends ArrayAdapter<Forecastday> {
             result=convertView;
         }
 
-        /*Animation animation = AnimationUtils.loadAnimation(mContext, (position > lastPosition) ? R.anim.up_from_bottom : R.anim.down_from_top);
+        Animation animation = AnimationUtils.loadAnimation(mContext, (position > lastPosition) ? R.anim.up_from_bottom : R.anim.down_from_top);
         result.startAnimation(animation);
         lastPosition = position;
-*/
+
         viewHolder.tvDate.setText(forecastday.getDate());
         viewHolder.tvText.setText(forecastday.getDay().getCondition().getText());
         viewHolder.tvMaxtemp.setText("Max temp " + forecastday.getDay().getMaxtempC() + " °C");
@@ -83,7 +84,6 @@ public class CustomAdapter extends ArrayAdapter<Forecastday> {
                 .load(("https:" + forecastday.getDay().getCondition().getIcon()))
                 .into(ViewHolder.ivIcon);
 
-        // Return the completed view to render on screen
         return convertView;
     }
 

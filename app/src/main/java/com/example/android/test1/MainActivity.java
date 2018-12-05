@@ -9,6 +9,9 @@ import android.os.Bundle;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -26,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout linearLayout;
     private ArrayAdapter<String> mAdapter;
     public static AppDatabase appDatabase;
+    RotateAnimation rotateAnimation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,13 +77,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //listView.performClick();
-        //
 
         View.OnTouchListener onSwipeTouchListener = new OnSwipeTouchListener(getApplicationContext()) {
             public void onSwipeTop() {
                 displayMessage("top");
             }
             public void onSwipeRight() {
+                imageViewNavigation.startAnimation(rotateAnimation);
                 displayMessage("right");
             }
             public void onSwipeLeft() {
@@ -92,6 +96,11 @@ public class MainActivity extends AppCompatActivity {
 
         linearLayout.setOnTouchListener(onSwipeTouchListener);
         listView.setOnTouchListener(onSwipeTouchListener);
+
+        rotateAnimation = new RotateAnimation(0, 90, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        rotateAnimation.setDuration(500);
+        rotateAnimation.setInterpolator(new LinearInterpolator());
+
 
         if (appDatabase == null) {
             appDatabase = Room.databaseBuilder(this, AppDatabase.class, "database").build();
