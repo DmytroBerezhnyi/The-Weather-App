@@ -111,10 +111,11 @@ public class MainActivity extends AppCompatActivity {
         imageViewNavigation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!mDrawer.isDrawerOpen(GravityCompat.START)) {
-                    mDrawer.openDrawer(Gravity.START);
-                } else {
-                    mDrawer.openDrawer(Gravity.NO_GRAVITY);
+                if (mDrawer.isDrawerOpen(GravityCompat.START)) {
+                    mDrawer.closeDrawer(GravityCompat.START);
+                } else
+                {
+                    mDrawer.openDrawer(GravityCompat.START);
                 }
             }
         });
@@ -130,14 +131,16 @@ public class MainActivity extends AppCompatActivity {
             }
             public void onSwipeRight() {
                 imageViewNavigation.startAnimation(rotateAnimation);
-                if (!mDrawer.isDrawerOpen(GravityCompat.START))
-                    mDrawer.openDrawer(Gravity.START);
+                if (!mDrawer.isDrawerOpen(GravityCompat.START)) {
+                    mDrawer.openDrawer(GravityCompat.START);
+                }
                 displayMessage("right");
             }
             public void onSwipeLeft() {
                 displayMessage("left");
-                if (mDrawer.isDrawerOpen(GravityCompat.START))
-                    mDrawer.openDrawer(Gravity.NO_GRAVITY);
+                if (mDrawer.isDrawerOpen(GravityCompat.START)) {
+                    mDrawer.closeDrawer(GravityCompat.START);
+                }
                 //mDrawer.closeDrawers();
             }
             public void onSwipeBottom() {
@@ -158,4 +161,13 @@ public class MainActivity extends AppCompatActivity {
     public static AppDatabase getAppDatabase() {
         return appDatabase;
     }
+
+    @Override
+    public void onBackPressed() {
+        if (mDrawer.isDrawerOpen(GravityCompat.START)) {
+            mDrawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
+}
