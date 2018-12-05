@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Test1</string>
+    <string-array name="string_array_cities">
+        <item>Харьков</item>
+        <item>Киев</item>
+        <item>Лондон</item>
+        <item>Париж</item>
+        <item>Берлин</item>
+        <item>Нью-Йорк</item>
+        <item>Лос-Анджелес</item>
+        <item>Каир</item>
+    </string-array>
+</resources>
+
