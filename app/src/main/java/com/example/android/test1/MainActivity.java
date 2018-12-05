@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //listView.performClick();
+        //
 
         View.OnTouchListener onSwipeTouchListener = new OnSwipeTouchListener(getApplicationContext()) {
             public void onSwipeTop() {
