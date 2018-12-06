@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private RelativeLayout relativeLayout;
     private LinearLayout mainMenu;
     private FrameLayout menu_background;
+    private FrameLayout fragment_content;
     private TextView menu_item1;
 
     private RotateAnimation rotateAnimation;
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private Animation animationFrom;
     private Animation animationToMenuBackground;
     private Animation animationFromMenuBackground;
+    private ImageView ivTools;
 
 
     @Override
@@ -70,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
         mainMenu = findViewById(R.id.main_menu);
         menu_item1 = findViewById(R.id.menu_item1);
         menu_background = findViewById(R.id.menu_background);
+        fragment_content = findViewById(R.id.fragment_container);
+        ivTools = findViewById(R.id.ivTools);
 
         cities = getResources().getStringArray(R.array.string_array_cities);
         mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, cities);
@@ -117,12 +121,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        ivTools.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, DataBaseActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void closeCustomDrawer() {
         mainMenu.startAnimation(animationFrom);
         menu_background.startAnimation(animationFromMenuBackground);
-        listView.setEnabled(true);
+        //listView.setEnabled(true);
         mainMenu.setVisibility(View.GONE);
         menu_background.setVisibility(View.GONE);
     }
@@ -130,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
     private void openCustomDrawer() {
         mainMenu.setVisibility(View.VISIBLE);
         menu_background.setVisibility(View.VISIBLE);
-        listView.setEnabled(false);
+        //listView.setEnabled(false);
         mainMenu.startAnimation(animationTo);
         menu_background.startAnimation(animationToMenuBackground);
     }
@@ -148,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
                    openCustomDrawer();
                 }
             }
+            //DO NOT WORK SWIPE TO LEFT IF LIST VIEW IS NOT ENABLED
             public void onSwipeLeft() {
                 displayMessage("left");
                 if (mainMenu.getVisibility() == View.VISIBLE) {
@@ -161,6 +174,8 @@ public class MainActivity extends AppCompatActivity {
 
         relativeLayout.setOnTouchListener(onSwipeTouchListener);
         listView.setOnTouchListener(onSwipeTouchListener);
+        menu_background.setOnTouchListener(onSwipeTouchListener);
+
     }
 
     private void animView() {
