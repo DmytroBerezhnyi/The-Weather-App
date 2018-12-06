@@ -1,26 +1,25 @@
 package com.example.android.test1;
 
+import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.arch.persistence.room.Room;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -28,21 +27,28 @@ public class MainActivity extends AppCompatActivity {
     private String[] cities;
 
     private ListView listView;
-    private android.support.v7.widget.Toolbar toolbar;
+    private FrameLayout toolbar;
     private ImageView imageViewNavigation;
-    private DrawerLayout mDrawer;
-    private NavigationView navigationView;
-    private LinearLayout linearLayout;
+    private RelativeLayout relativeLayout;
+    private LinearLayout mainMenu;
+    private FrameLayout menu_background;
+    private TextView menu_item1;
 
     private RotateAnimation rotateAnimation;
     private ArrayAdapter<String> mAdapter;
 
     public static AppDatabase appDatabase;
 
+    private Animation animationTo;
+    private Animation animationFrom;
+    private Animation animationToMenuBackground;
+    private Animation animationFromMenuBackground;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_custom);
         init();
     }
 
@@ -58,11 +64,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void init() {
         listView = findViewById(R.id.listViewMainActivity);
-        toolbar = findViewById(R.id.my_toolbar);
+        toolbar = findViewById(R.id.toolbar);
         imageViewNavigation = findViewById(R.id.ivNavigation);
-        linearLayout = findViewById(R.id.linearLayout);
-        mDrawer = findViewById(R.id.drawer_layout);
-        navigationView = findViewById(R.id.nvView);
+        relativeLayout = findViewById(R.id.drawer_layout);
+        mainMenu = findViewById(R.id.main_menu);
+        menu_item1 = findViewById(R.id.menu_item1);
+        menu_background = findViewById(R.id.menu_background);
 
         cities = getResources().getStringArray(R.array.string_array_cities);
         mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, cities);
@@ -71,30 +78,14 @@ public class MainActivity extends AppCompatActivity {
         clickListeners();
         touchListeners();
         animView();
-        navigationViewProcess();
+
+        animationFrom = AnimationUtils.loadAnimation(MainActivity.this, R.anim.translate_from);
+        animationTo = AnimationUtils.loadAnimation(MainActivity.this, R.anim.translate_to);
+        animationFromMenuBackground = AnimationUtils.loadAnimation(MainActivity.this, R.anim.menu_background_alpha_from);
+        animationToMenuBackground = AnimationUtils.loadAnimation(MainActivity.this, R.anim.menu_background_alpha_to);
 
         if (appDatabase == null)
             appDatabase = Room.databaseBuilder(this, AppDatabase.class, "database").build();
-    }
-
-    private void navigationViewProcess() {
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                switch (menuItem.getItemId()) {
-                    case R.id.nav_first_fragment:
-                        displayMessage("nav_first_fragment");
-                        break;
-                    case R.id.nav_second_fragment:
-                        displayMessage("nav_second_fragment");
-                        break;
-                    case R.id.nav_third_fragment:
-                        displayMessage("nav_third_fragment");
-                        break;
-                }
-                return true;
-            }
-        });
     }
 
     private void clickListeners() {
@@ -111,15 +102,37 @@ public class MainActivity extends AppCompatActivity {
         imageViewNavigation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mDrawer.isDrawerOpen(GravityCompat.START)) {
-                    mDrawer.closeDrawer(GravityCompat.START);
-                } else
-                {
-                    mDrawer.openDrawer(GravityCompat.START);
+                if (mainMenu.getVisibility() == View.GONE) {
+                    openCustomDrawer();
+                } else if (mainMenu.getVisibility() == View.VISIBLE) {
+                    closeCustomDrawer();
                 }
             }
         });
 
+        menu_item1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "Its was been clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    private void closeCustomDrawer() {
+        mainMenu.startAnimation(animationFrom);
+        menu_background.startAnimation(animationFromMenuBackground);
+        listView.setEnabled(true);
+        mainMenu.setVisibility(View.GONE);
+        menu_background.setVisibility(View.GONE);
+    }
+
+    private void openCustomDrawer() {
+        mainMenu.setVisibility(View.VISIBLE);
+        menu_background.setVisibility(View.VISIBLE);
+        listView.setEnabled(false);
+        mainMenu.startAnimation(animationTo);
+        menu_background.startAnimation(animationToMenuBackground);
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -130,31 +143,29 @@ public class MainActivity extends AppCompatActivity {
                 displayMessage("top");
             }
             public void onSwipeRight() {
-                imageViewNavigation.startAnimation(rotateAnimation);
-                if (!mDrawer.isDrawerOpen(GravityCompat.START)) {
-                    mDrawer.openDrawer(GravityCompat.START);
+                    displayMessage("right");
+                if (mainMenu.getVisibility() == View.GONE) {
+                   openCustomDrawer();
                 }
-                displayMessage("right");
             }
             public void onSwipeLeft() {
                 displayMessage("left");
-                if (mDrawer.isDrawerOpen(GravityCompat.START)) {
-                    mDrawer.closeDrawer(GravityCompat.START);
+                if (mainMenu.getVisibility() == View.VISIBLE) {
+                    closeCustomDrawer();
                 }
-                //mDrawer.closeDrawers();
             }
             public void onSwipeBottom() {
                 displayMessage("bottom");
             }
         };
 
-        linearLayout.setOnTouchListener(onSwipeTouchListener);
+        relativeLayout.setOnTouchListener(onSwipeTouchListener);
         listView.setOnTouchListener(onSwipeTouchListener);
     }
 
     private void animView() {
         rotateAnimation = new RotateAnimation(0, 90, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-        rotateAnimation.setDuration(500);
+        rotateAnimation.setDuration(250);
         rotateAnimation.setInterpolator(new LinearInterpolator());
     }
 
@@ -164,8 +175,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (mDrawer.isDrawerOpen(GravityCompat.START)) {
-            mDrawer.closeDrawer(GravityCompat.START);
+        if(mainMenu.getVisibility() == View.VISIBLE) {
+            closeCustomDrawer();
         } else {
             super.onBackPressed();
         }
