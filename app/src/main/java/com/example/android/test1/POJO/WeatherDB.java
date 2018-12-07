@@ -14,4 +14,17 @@ public class WeatherDB {
         this.jsonObject = jsonObject;
         this.time = time;
     }
+
+    public long getId() {
+        return id;
+    }
+
+    public String getJsonObject() {
+        return jsonObject;
+    }
+
+    public long getTime() {
+        return time;
+    }
+
 }

@@ -1,4 +1,4 @@
-package com.example.android.test1;
+package com.example.android.test1.Adapters;
 
 import com.example.android.test1.POJO.Weather;
 

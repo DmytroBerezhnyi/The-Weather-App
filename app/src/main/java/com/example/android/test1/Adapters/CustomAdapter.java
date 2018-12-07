@@ -1,17 +1,16 @@
-package com.example.android.test1;
+package com.example.android.test1.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.test1.POJO.Forecastday;
 import com.example.android.test1.POJO.Weather;
+import com.example.android.test1.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -19,8 +18,8 @@ import java.util.List;
 public class CustomAdapter extends ArrayAdapter<Forecastday> {
 
     private Weather weather;
-    List<Forecastday> list;
-    Context mContext;
+    private List<Forecastday> list;
+    private Context mContext;
     private int lastPosition = -1;
 
     public CustomAdapter(Weather data, Context context) {
@@ -82,6 +81,8 @@ public class CustomAdapter extends ArrayAdapter<Forecastday> {
 
         Picasso.with(mContext)
                 .load(("https:" + forecastday.getDay().getCondition().getIcon()))
+                .placeholder(R.drawable.loading)
+                .error(R.drawable.loading)
                 .into(ViewHolder.ivIcon);
 
         return convertView;

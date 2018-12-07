@@ -7,6 +7,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.android.test1.Adapters.APIService;
+import com.example.android.test1.Adapters.CustomAdapter;
+import com.example.android.test1.DataBase.WeatherDAO;
 import com.example.android.test1.POJO.Weather;
 import com.example.android.test1.POJO.WeatherDB;
 import com.google.gson.Gson;
@@ -21,7 +24,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class WeatherActivity extends Activity {
     private TextView tvCity;
     ListView listView;
-    private  static  CustomAdapter adapter;
+    private  static CustomAdapter adapter;
     public static final String KEY = "7a949db346a74b029a891222180412";
     String city;
 

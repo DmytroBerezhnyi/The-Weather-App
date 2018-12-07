@@ -1,4 +1,4 @@
-package com.example.android.test1;
+package com.example.android.test1.DataBase;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;

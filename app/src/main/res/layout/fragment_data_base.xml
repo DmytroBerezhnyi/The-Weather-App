@@ -7,11 +7,16 @@
     android:gravity="center"
     android:orientation="vertical"
     tools:context=".DataBaseActivity">
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Get info from EventBus"
+        android:id="@+id/myBtnGetEventBus"/>
 
-    <FrameLayout
-        android:id="@+id/frgmCont"
+    <ListView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </FrameLayout>
+        android:layout_height="wrap_content"
+        android:id="@+id/myListViewEventBus"
+        android:visibility="gone"/>
 
 </LinearLayout>

@@ -1,6 +1,5 @@
 package com.example.android.test1;
 
-import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.arch.persistence.room.Room;
 import android.content.Intent;
@@ -21,6 +20,9 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.android.test1.Adapters.OnSwipeTouchListener;
+import com.example.android.test1.DataBase.AppDatabase;
 
 public class MainActivity extends AppCompatActivity {
 
