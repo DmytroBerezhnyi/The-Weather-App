@@ -1,5 +1,8 @@
-package com.example.android.test1;
+package com.example.android.test1.MVP;
 
+import com.example.android.test1.MVP.IMainWeatherView;
+import com.example.android.test1.MVP.IWeatherPresenter;
+import com.example.android.test1.MVP.WeatherModel;
 import com.example.android.test1.POJO.WeatherDB;
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 

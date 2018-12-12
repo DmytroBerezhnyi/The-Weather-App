@@ -1,8 +1,7 @@
-package com.example.android.test1;
+package com.example.android.test1.Fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +9,11 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.android.test1.Adapters.CustomAdapterEventBus;
+import com.example.android.test1.MVP.IMainWeatherView;
+import com.example.android.test1.MVP.IWeatherPresenter;
+import com.example.android.test1.MVP.WeatherPresenterImpl;
 import com.example.android.test1.POJO.WeatherDB;
+import com.example.android.test1.R;
 import com.hannesdorfmann.mosby.mvp.MvpFragment;
 
 import java.util.List;

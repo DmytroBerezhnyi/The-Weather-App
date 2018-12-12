@@ -1,10 +1,13 @@
-package com.example.android.test1;
+package com.example.android.test1.Activities;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
+
+import com.example.android.test1.Fragments.DataBaseFragment;
 import com.example.android.test1.POJO.WeatherDB;
+import com.example.android.test1.R;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

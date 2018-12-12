@@ -1,5 +1,6 @@
-package com.example.android.test1;
+package com.example.android.test1.MVP;
 
+import com.example.android.test1.Activities.MainActivity;
 import com.example.android.test1.POJO.WeatherDB;
 
 import java.util.List;

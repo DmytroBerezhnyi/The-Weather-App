@@ -1,4 +1,4 @@
-package com.example.android.test1;
+package com.example.android.test1.Activities;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -12,6 +12,7 @@ import com.example.android.test1.Adapters.CustomAdapter;
 import com.example.android.test1.DataBase.WeatherDAO;
 import com.example.android.test1.POJO.Weather;
 import com.example.android.test1.POJO.WeatherDB;
+import com.example.android.test1.R;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

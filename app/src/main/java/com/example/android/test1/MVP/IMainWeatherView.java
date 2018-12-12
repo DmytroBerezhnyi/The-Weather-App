@@ -1,4 +1,4 @@
-package com.example.android.test1;
+package com.example.android.test1.MVP;
 
 import com.example.android.test1.POJO.WeatherDB;
 import com.hannesdorfmann.mosby.mvp.MvpView;

@@ -1,4 +1,4 @@
-package com.example.android.test1;
+package com.example.android.test1.Activities;
 
 import android.annotation.SuppressLint;
 import android.arch.persistence.room.Room;
@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.example.android.test1.Adapters.OnSwipeTouchListener;
 import com.example.android.test1.DataBase.AppDatabase;
+import com.example.android.test1.R;
 
 public class MainActivity extends AppCompatActivity {
 
