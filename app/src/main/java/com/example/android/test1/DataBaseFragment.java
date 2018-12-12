@@ -54,12 +54,17 @@ public class DataBaseFragment extends MvpFragment<IMainWeatherView, IWeatherPres
     }
 
     @Override
-    public void showList(List<WeatherDB> weatherDBList) {
-        button.setVisibility(View.GONE);
-        listView.setVisibility(View.VISIBLE);
-        customAdapterEventBus = new CustomAdapterEventBus(weatherDBList, getContext());
-        listView.setAdapter(customAdapterEventBus);
-        customAdapterEventBus.notifyDataSetChanged();
+    public void showList(final List<WeatherDB> weatherDBList) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                button.setVisibility(View.GONE);
+                listView.setVisibility(View.VISIBLE);
+                customAdapterEventBus = new CustomAdapterEventBus(weatherDBList, getContext());
+                listView.setAdapter(customAdapterEventBus);
+                customAdapterEventBus.notifyDataSetChanged();
+            }
+        });
     }
 
     @Override

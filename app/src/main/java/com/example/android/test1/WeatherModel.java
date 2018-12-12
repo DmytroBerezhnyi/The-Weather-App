@@ -15,12 +15,12 @@ public class WeatherModel {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                gettingData.getAllObj(MainActivity.getAppDatabase().weatherDAO().getAll());
+                gettingData.getAll(MainActivity.getAppDatabase().weatherDAO().getAll());
             }
         }).start();
     }
 
     public interface GettingData {
-        void getAllObj(List<WeatherDB> weatherDBList);
+        void getAll(List<WeatherDB> weatherDBList);
         }
 }
