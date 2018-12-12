@@ -8,7 +8,6 @@ import android.widget.ListView;
 import com.example.android.test1.Adapters.CustomAdapterEventBus;
 import com.example.android.test1.POJO.WeatherDB;
 import com.hannesdorfmann.mosby.mvp.MvpActivity;
-import org.greenrobot.eventbus.EventBus;
 import java.util.List;
 
 public class DataBaseActivity extends MvpActivity<IMainWeatherView, IWeatherPresenter> implements IMainWeatherView {
@@ -16,7 +15,6 @@ public class DataBaseActivity extends MvpActivity<IMainWeatherView, IWeatherPres
     private Button button;
     private ListView listView;
     private CustomAdapterEventBus customAdapterEventBus;
-    private EventBus eventBus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +26,6 @@ public class DataBaseActivity extends MvpActivity<IMainWeatherView, IWeatherPres
     private void init() {
         button = findViewById(R.id.myBtnGetEventBus);
         listView = findViewById(R.id.myListViewEventBus);
-
-        eventBus = EventBus.getDefault();
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override

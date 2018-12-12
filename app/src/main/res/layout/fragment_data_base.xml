@@ -7,11 +7,12 @@
     android:gravity="center"
     android:orientation="vertical"
     tools:context=".DataBaseActivity">
+
     <Button
+        android:id="@+id/myBtnGetEventBus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Get info from EventBus"
-        android:id="@+id/myBtnGetEventBus"/>
+        android:text="Get info from Presenter + EventBus" />
 
     <ListView
         android:layout_width="match_parent"
