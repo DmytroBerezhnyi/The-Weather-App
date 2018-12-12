@@ -5,28 +5,25 @@ import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 
 import java.util.List;
 
-public class WeatherPresenterImpl extends MvpBasePresenter<IMainWeatherView> implements IWeatherPresenter, WeatherModel.GettingData {
+public class WeatherPresenterImpl extends MvpBasePresenter<IMainWeatherView> implements IWeatherPresenter {
 
     private final WeatherModel weatherModel;
     private boolean buttonPressed = false;
 
     public WeatherPresenterImpl() {
-        weatherModel = new WeatherModel(this);
+        weatherModel = new WeatherModel();
     }
 
     @Override
     public void buttonPressed() {
         buttonPressed = true;
-        weatherModel.getAll();
-    }
-
-    @Override
-    public void getAll(List<WeatherDB> weatherDBList) {
-        if (buttonPressed) {
-            if (isViewAttached()) {
-                getView().showList(weatherDBList);
-                buttonPressed = false;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                List<WeatherDB> list = weatherModel.getAll();
+                getView().showList(list);
             }
-        }
+        }).start();
+
     }
 }

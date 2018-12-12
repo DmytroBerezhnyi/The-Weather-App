@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
+
 import com.example.android.test1.Adapters.CustomAdapterEventBus;
 import com.example.android.test1.POJO.WeatherDB;
 import com.hannesdorfmann.mosby.mvp.MvpFragment;
@@ -38,17 +39,7 @@ public class DataBaseFragment extends MvpFragment<IMainWeatherView, IWeatherPres
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                getPresenter().buttonPressed();
-                            }
-                        });
-                    }
-                }).start();
+                getPresenter().buttonPressed();
             }
         });
     }
