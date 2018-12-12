@@ -1,21 +1,26 @@
 package com.example.android.test1;
 
-import org.greenrobot.eventbus.EventBus;
+import com.example.android.test1.POJO.WeatherDB;
+
+import java.util.List;
 
 public class WeatherModel {
-    private EventBus eventBus;
+    GettingData gettingData;
 
-    public WeatherModel() {
-        eventBus = EventBus.getDefault();
+    public WeatherModel(GettingData gettingData) {
+        this.gettingData = gettingData;
     }
 
     public void getAll() {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                eventBus.post(MainActivity.getAppDatabase().weatherDAO().getAll());
+                gettingData.getAllObj(MainActivity.getAppDatabase().weatherDAO().getAll());
             }
         }).start();
     }
 
+    public interface GettingData {
+        void getAllObj(List<WeatherDB> weatherDBList);
+        }
 }

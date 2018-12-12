@@ -4,4 +4,5 @@ import com.hannesdorfmann.mosby.mvp.MvpPresenter;
 
 public interface IWeatherPresenter extends MvpPresenter<IMainWeatherView> {
     void buttonPressed();
+    void refresData();
 }

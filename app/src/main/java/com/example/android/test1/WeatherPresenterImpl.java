@@ -2,32 +2,39 @@ package com.example.android.test1;
 
 import com.example.android.test1.POJO.WeatherDB;
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 import java.util.List;
 
-public class WeatherPresenterImpl extends MvpBasePresenter<IMainWeatherView> implements IWeatherPresenter {
+public class WeatherPresenterImpl extends MvpBasePresenter<IMainWeatherView> implements IWeatherPresenter, WeatherModel.GettingData {
+
     private final WeatherModel weatherModel;
-    private EventBus eventBus;
     private List<WeatherDB> event;
+    private boolean refresh = true;
 
     public WeatherPresenterImpl() {
-        weatherModel = new WeatherModel();
-        weatherModel.getAll();
-        eventBus = EventBus.getDefault();
-        eventBus.register(this);
+        weatherModel = new WeatherModel(this);
+        refresData();
     }
 
     @Override
     public void buttonPressed() {
-        if(isViewAttached()) {
+        if (isViewAttached()) {
             getView().showList(event);
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(List<WeatherDB> event){
-        this.event = event;
+    @Override
+    public void refresData() {
+        weatherModel.getAll();
+        refresh = true;
+    }
+
+    @Override
+    public void getAllObj(List<WeatherDB> weatherDBList) {
+        this.event = weatherDBList;
+
+        if(!refresh) {
+            buttonPressed();
+            refresh = !refresh;
+        }
     }
 }

@@ -1,32 +1,24 @@
 package com.example.android.test1;
 
-
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
-
 import com.example.android.test1.Adapters.CustomAdapterEventBus;
 import com.example.android.test1.POJO.WeatherDB;
-import com.hannesdorfmann.mosby.mvp.lce.MvpLceFragment;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
+import com.hannesdorfmann.mosby.mvp.MvpFragment;
 
 import java.util.List;
 
-public class DataBaseFragment extends Fragment {
+public class DataBaseFragment extends MvpFragment<IMainWeatherView, IWeatherPresenter> implements IMainWeatherView {
 
     private Button button;
     private ListView listView;
     private CustomAdapterEventBus customAdapterEventBus;
-    private EventBus eventBus;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -43,31 +35,35 @@ public class DataBaseFragment extends Fragment {
         button = getView().findViewById(R.id.myBtnGetEventBus);
         listView = getView().findViewById(R.id.myListViewEventBus);
 
-        eventBus = EventBus.getDefault();
-        eventBus.register(this);
-
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        List<WeatherDB> weatherDBList = MainActivity.getAppDatabase().weatherDAO().getAll();
-                        eventBus.post(weatherDBList);
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                getPresenter().buttonPressed();
+                            }
+                        });
                     }
                 }).start();
             }
         });
     }
 
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(List<WeatherDB> event){
+    @Override
+    public void showList(List<WeatherDB> weatherDBList) {
         button.setVisibility(View.GONE);
         listView.setVisibility(View.VISIBLE);
-        customAdapterEventBus = new CustomAdapterEventBus(event, getContext());
+        customAdapterEventBus = new CustomAdapterEventBus(weatherDBList, getContext());
         listView.setAdapter(customAdapterEventBus);
         customAdapterEventBus.notifyDataSetChanged();
     }
 
+    @Override
+    public IWeatherPresenter createPresenter() {
+        return new WeatherPresenterImpl();
+    }
 }
