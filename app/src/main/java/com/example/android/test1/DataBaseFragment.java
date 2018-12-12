@@ -4,15 +4,16 @@ package com.example.android.test1;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.android.test1.Adapters.CustomAdapterEventBus;
 import com.example.android.test1.POJO.WeatherDB;
+import com.hannesdorfmann.mosby.mvp.lce.MvpLceFragment;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -28,15 +29,13 @@ public class DataBaseFragment extends Fragment {
     private EventBus eventBus;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_data_base, container, false);
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         init();
     }
 
@@ -61,12 +60,14 @@ public class DataBaseFragment extends Fragment {
         });
     }
 
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(List<WeatherDB> event){
         button.setVisibility(View.GONE);
         listView.setVisibility(View.VISIBLE);
         customAdapterEventBus = new CustomAdapterEventBus(event, getContext());
         listView.setAdapter(customAdapterEventBus);
+        customAdapterEventBus.notifyDataSetChanged();
     }
 
 }
