@@ -1,13 +1,14 @@
 package com.example.android.test1.Activities;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.example.android.test1.Fragments.DataBaseFragment;
-import com.example.android.test1.POJO.WeatherDB;
 import com.example.android.test1.R;
+import com.example.android.test1.data.WeatherDB;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -36,8 +37,7 @@ public class DataBaseActivity extends AppCompatActivity {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(List<WeatherDB> event){
+    public void onEvent(List<WeatherDB> event) {
         Toast.makeText(this, "Hello from Activity", Toast.LENGTH_SHORT).show();
     }
-
 }

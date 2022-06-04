@@ -1,9 +1,7 @@
-package com.example.android.test1.Activities;
+package com.example.android.test1.ui.main;
 
 import android.annotation.SuppressLint;
-import android.arch.persistence.room.Room;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,21 +19,23 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.android.test1.Adapters.OnSwipeTouchListener;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
+
+import com.example.android.test1.Activities.DataBaseActivity;
 import com.example.android.test1.DataBase.AppDatabase;
 import com.example.android.test1.R;
+import com.example.android.test1.ui.weather.WeatherActivity;
 
 public class MainActivity extends AppCompatActivity {
 
     private String[] cities;
 
     private ListView listView;
-    private FrameLayout toolbar;
     private ImageView imageViewNavigation;
     private RelativeLayout relativeLayout;
     private LinearLayout mainMenu;
     private FrameLayout menu_background;
-    private FrameLayout fragment_content;
     private TextView menu_item1;
 
     private RotateAnimation rotateAnimation;
@@ -69,13 +69,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void init() {
         listView = findViewById(R.id.listViewMainActivity);
-        toolbar = findViewById(R.id.toolbar);
+        FrameLayout toolbar = findViewById(R.id.toolbar);
         imageViewNavigation = findViewById(R.id.ivNavigation);
         relativeLayout = findViewById(R.id.drawer_layout);
         mainMenu = findViewById(R.id.main_menu);
         menu_item1 = findViewById(R.id.menu_item1);
         menu_background = findViewById(R.id.menu_background);
-        fragment_content = findViewById(R.id.fragment_container);
         ivTools = findViewById(R.id.ivTools);
 
         cities = getResources().getStringArray(R.array.string_array_cities);

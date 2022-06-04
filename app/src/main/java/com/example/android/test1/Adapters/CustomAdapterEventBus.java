@@ -7,8 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.example.android.test1.POJO.WeatherDB;
 import com.example.android.test1.R;
+import com.example.android.test1.data.WeatherDB;
 
 import java.util.List;
 

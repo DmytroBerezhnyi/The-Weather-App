@@ -1,7 +1,7 @@
 package com.example.android.test1.MVP;
 
-import com.example.android.test1.Activities.MainActivity;
-import com.example.android.test1.POJO.WeatherDB;
+import com.example.android.test1.data.WeatherDB;
+import com.example.android.test1.ui.main.MainActivity;
 
 import java.util.List;
 
