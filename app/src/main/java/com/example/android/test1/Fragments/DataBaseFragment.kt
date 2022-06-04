@@ -1,69 +1,53 @@
-package com.example.android.test1.Fragments;
+package com.example.android.test1.Fragments
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ListView;
+import com.hannesdorfmann.mosby.mvp.MvpFragment
+import com.example.android.test1.MVP.IMainWeatherView
+import com.example.android.test1.MVP.IWeatherPresenter
+import com.example.android.test1.Adapters.CustomAdapterEventBus
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import android.os.Bundle
+import android.view.View
+import android.widget.Button
+import android.widget.ListView
+import com.example.android.test1.R
+import com.example.android.test1.data.WeatherDB
+import com.example.android.test1.MVP.WeatherPresenterImpl
 
-import androidx.annotation.Nullable;
-
-import com.example.android.test1.Adapters.CustomAdapterEventBus;
-import com.example.android.test1.MVP.IMainWeatherView;
-import com.example.android.test1.MVP.IWeatherPresenter;
-import com.example.android.test1.MVP.WeatherPresenterImpl;
-import com.example.android.test1.R;
-import com.example.android.test1.data.WeatherDB;
-import com.hannesdorfmann.mosby.mvp.MvpFragment;
-
-import java.util.List;
-
-public class DataBaseFragment extends MvpFragment<IMainWeatherView, IWeatherPresenter> implements IMainWeatherView {
-
-    private Button button;
-    private ListView listView;
-    private CustomAdapterEventBus customAdapterEventBus;
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_data_base, container, false);
+class DataBaseFragment : MvpFragment<IMainWeatherView?, IWeatherPresenter>(), IMainWeatherView {
+    private var button: Button? = null
+    private var listView: ListView? = null
+    private var customAdapterEventBus: CustomAdapterEventBus? = null
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_data_base, container, false)
     }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        init();
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        init()
     }
 
-    private void init() {
-        button = getView().findViewById(R.id.myBtnGetEventBus);
-        listView = getView().findViewById(R.id.myListViewEventBus);
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getPresenter().buttonPressed();
-            }
-        });
+    private fun init() {
+        button = view?.findViewById(R.id.myBtnGetEventBus)
+        listView = view?.findViewById(R.id.myListViewEventBus)
+        button?.setOnClickListener { getPresenter().buttonPressed() }
     }
 
-    @Override
-    public void showList(final List<WeatherDB> weatherDBList) {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                button.setVisibility(View.GONE);
-                listView.setVisibility(View.VISIBLE);
-                customAdapterEventBus = new CustomAdapterEventBus(weatherDBList, getContext());
-                listView.setAdapter(customAdapterEventBus);
-                customAdapterEventBus.notifyDataSetChanged();
-            }
-        });
+    override fun showList(weatherDBList: List<WeatherDB>) {
+        activity?.runOnUiThread {
+            button!!.visibility = View.GONE
+            listView!!.visibility = View.VISIBLE
+            customAdapterEventBus = CustomAdapterEventBus(weatherDBList, context)
+            listView!!.adapter = customAdapterEventBus
+            customAdapterEventBus!!.notifyDataSetChanged()
+        }
     }
 
-    @Override
-    public IWeatherPresenter createPresenter() {
-        return new WeatherPresenterImpl();
+    override fun createPresenter(): IWeatherPresenter {
+        return WeatherPresenterImpl()
     }
 }

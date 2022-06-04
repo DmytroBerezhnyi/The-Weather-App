@@ -1,10 +1,8 @@
-package com.example.android.test1.MVP;
+package com.example.android.test1.MVP
 
-import com.example.android.test1.data.WeatherDB;
-import com.hannesdorfmann.mosby.mvp.MvpView;
+import com.hannesdorfmann.mosby.mvp.MvpView
+import com.example.android.test1.data.WeatherDB
 
-import java.util.List;
-
-public interface IMainWeatherView extends MvpView {
-    void showList(List<WeatherDB> weatherDBList);
+interface IMainWeatherView : MvpView {
+    fun showList(weatherDBList: List<WeatherDB>)
 }

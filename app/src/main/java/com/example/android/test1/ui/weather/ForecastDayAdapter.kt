@@ -16,9 +16,7 @@ class ForecastDayAdapter : RecyclerView.Adapter<ForecastDayAdapter.ForecastDayVi
 
     fun submitList(forecastDay: ForecastDay) {
         this.adapterList.clear()
-        repeat(7) {
-            this.adapterList.add(forecastDay)
-        }
+        this.adapterList.add(forecastDay)
         notifyDataSetChanged()
     }
 

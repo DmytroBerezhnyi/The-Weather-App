@@ -2,6 +2,7 @@ package com.example.android.test1.ui.weather
 
 import android.app.Activity
 import android.os.Bundle
+import android.provider.Contacts.SettingsColumns.KEY
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
@@ -19,9 +20,11 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class WeatherActivity : Activity() {
+
     private var tvCity: TextView? = null
     var recyclerView: RecyclerView? = null
     var city: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_weather)
@@ -42,30 +45,27 @@ class WeatherActivity : Activity() {
         val apiService = retrofit.create(APIService::class.java)
         apiService.getCurrentCityWeather(KEY, city!!).enqueue(object : Callback<Weather?> {
             override fun onResponse(call: Call<Weather?>, response: Response<Weather?>) {
-                try {
-                    if (response.isSuccessful) {
-                        val weather = buildList {
-                            response.body()?.let { add(it) }
-                        }
-                        val builder = GsonBuilder()
-                        val gson = builder.create()
-
-                        adapter = ForecastDayAdapter()
-                        recyclerView!!.adapter = adapter
-                        adapter!!.submitList(weather.first().toForecastDay())
-                        Thread {
-                            val weatherDAO = MainActivity.getAppDatabase().weatherDAO()
-                            weatherDAO.insert(
-                                WeatherDB(Gson().toJson(weather.first().toForecastDay()), System.currentTimeMillis())
-                            )
-                            val count = weatherDAO.count
-                            showToast(count)
-                        }.start()
-                    } else {
-                        Toast.makeText(this@WeatherActivity, "Error", Toast.LENGTH_SHORT).show()
+                if (response.isSuccessful) {
+                    val weather = buildList {
+                        response.body()?.let { add(it) }
                     }
-                } catch (e: Exception) {
-                    e.printStackTrace()
+
+                    adapter = ForecastDayAdapter()
+                    recyclerView!!.adapter = adapter
+                    adapter!!.submitList(weather.first().toForecastDay())
+                    Thread {
+                        val weatherDAO = MainActivity.getAppDatabase().weatherDAO()
+                        weatherDAO.insert(
+                            WeatherDB(
+                                Gson().toJson(weather.first().toForecastDay()),
+                                System.currentTimeMillis()
+                            )
+                        )
+                        val count = weatherDAO.count
+                        showToast(count)
+                    }.start()
+                } else {
+                    Toast.makeText(this@WeatherActivity, "Error", Toast.LENGTH_SHORT).show()
                 }
             }
 

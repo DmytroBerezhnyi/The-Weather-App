@@ -1,34 +1,35 @@
 package com.example.android.test1.DataBase;
 
-import android.arch.persistence.room.Dao;
-import android.arch.persistence.room.Delete;
-import android.arch.persistence.room.Insert;
-import android.arch.persistence.room.Query;
-import android.arch.persistence.room.Update;
 
-import com.example.android.test1.POJO.WeatherDB;
+import androidx.room.Dao;
+import androidx.room.Delete;
+import androidx.room.Insert;
+import androidx.room.Query;
+import androidx.room.Update;
+
+import com.example.android.test1.data.WeatherDB;
 
 import java.util.List;
 
 @Dao
-public interface WeatherDAO {
+public interface WeatherDao {
 
     @Query("SELECT * FROM weatherdb")
-    List<WeatherDB> getAll();
+    public List<WeatherDB> getAll();
 
     @Query("SELECT * FROM weatherdb WHERE id = :id")
-    WeatherDB getById(long id);
+    public WeatherDB getById(long id);
 
     @Query("SELECT COUNT(id) FROM weatherdb")
-    int getCount();
+    public int getCount();
 
     @Insert
-    void insert(WeatherDB weatherDB);
+    public void insert(WeatherDB weatherDB);
 
     @Update
-    void update(WeatherDB weatherDB);
+    public void update(WeatherDB weatherDB);
 
     @Delete
-    void delete(WeatherDB weatherDB);
+    public void delete(WeatherDB weatherDB);
 
 }

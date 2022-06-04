@@ -1,29 +1,21 @@
-package com.example.android.test1.MVP;
+package com.example.android.test1.MVP
 
-import com.example.android.test1.data.WeatherDB;
-import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
+import com.hannesdorfmann.mosby.mvp.MvpBasePresenter
+import com.example.android.test1.MVP.IMainWeatherView
+import com.example.android.test1.MVP.IWeatherPresenter
+import com.example.android.test1.MVP.WeatherModel
+import com.example.android.test1.data.WeatherDB
 
-import java.util.List;
+class WeatherPresenterImpl : MvpBasePresenter<IMainWeatherView?>(), IWeatherPresenter {
 
-public class WeatherPresenterImpl extends MvpBasePresenter<IMainWeatherView> implements IWeatherPresenter {
+    private val weatherModel: WeatherModel = WeatherModel()
+    private var buttonPressed = false
 
-    private final WeatherModel weatherModel;
-    private boolean buttonPressed = false;
-
-    public WeatherPresenterImpl() {
-        weatherModel = new WeatherModel();
-    }
-
-    @Override
-    public void buttonPressed() {
-        buttonPressed = true;
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                List<WeatherDB> list = weatherModel.getAll();
-                getView().showList(list);
-            }
-        }).start();
-
+    override fun buttonPressed() {
+        buttonPressed = true
+        Thread {
+            val list = weatherModel.all
+            view!!.showList(list)
+        }.start()
     }
 }

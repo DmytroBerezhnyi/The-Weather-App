@@ -50,7 +50,7 @@ public class CustomAdapterEventBus extends ArrayAdapter<WeatherDB> {
         lastPosition = position;
 
         viewHolder.tvTime.setText(weatherDB.getTime() + "");
-        viewHolder.tvId.setText(weatherDB.getId() + "");
+        viewHolder.tvId.setText(weatherDB.id + "");
         viewHolder.tvJson.setText(weatherDB.getJsonObject());
 
         return convertView;
